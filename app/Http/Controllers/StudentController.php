@@ -20,7 +20,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -28,7 +28,9 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        Student::create($input);
+        return redirect('students')->with('flash_message', 'Student Addedd!');
     }
 
     /**
@@ -36,7 +38,8 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $student = Student::find($id);
+        return view('students.show')->with('student', $student);
     }
 
     /**
@@ -44,7 +47,8 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $student = Student::find($id);
+        return view('students.edit', ['student' => $student]);
     }
 
     /**
@@ -52,7 +56,11 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $student = Student::find($id);
+        $input = $request->all();
+        $student->update($input);
+        return redirect('students')->with('flash_message', 'Student updated!');
+
     }
 
     /**
@@ -60,6 +68,9 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $student = Student::find($id);
+        // Student::destroy($id); klases metode destroy
+        $student->delete(); // instances metode delete
+        return redirect('students')->with('flash_message', 'Student deleted!');
     }
 }
